@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission
 from rest_framework.generics import *
 from rest_framework.views import APIView
 from django.http import JsonResponse
@@ -8,10 +9,12 @@ from .serializers import *
 from user.models import *
 
 class GetAllCourseList(ListAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Course.objects.all()
     serializer_class = GetCourseSerializers
 
 class GetCourseList(ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = GetCourseSerializers
 
     def get_queryset(self):
@@ -19,6 +22,7 @@ class GetCourseList(ListAPIView):
         return Course.objects.filter(pk=ids)
 
 class BuyCource(APIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = BuyCourseSerializers
 
     def post(self, request, *args, **kwargs):
@@ -42,19 +46,17 @@ class BuyCource(APIView):
 
 
 class GetTopics(ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = GetTopicsSerializers
 
     def get_queryset(self):
         ids = self.kwargs['id']
-        return Topics.objects.filter(courses__id=ids)
+        data = Topics.objects.filter(courses__id=ids)
+        return data
         
 
-#def get_queryset(self):
-#        ids = self.kwargs['id']
-#        return EvSahibi.objects.filter(ev__id=ids)
-
-class GetContent(APIView):
-    
+class GetContent(ListAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = GetContentSerializers
 
     def get_queryset(self):
