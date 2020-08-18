@@ -3,52 +3,21 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework_jwt.settings import api_settings
 from rest_framework import permissions
-from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import *
 from rest_framework.generics import *
+from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator
 from .serializers import *
+import json
+from django.http import JsonResponse
+from rest_framework.status import *
 
 
+class CreateUserView(CreateAPIView):
+    model = User.objects.all()
+    serializer_class = RegisterSerializer
 
-
-
-
-class LoginView(CreateAPIView):
-    permission_classes = (permissions.AllowAny,)
-
-    queryset = User.objects.all()
-
-    def post(self, request, *args, **kwargs):
-        username = request.data.get("username", "")
-        password = request.data.get("password", "")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            # login saves the user’s ID in the session,
-            # using Django’s session framework.
-            login(request, user)
-            serializer = TokenSerializer(data={
-                # using drf jwt utility functions to generate a token
-                "token": jwt_encode_handler(
-                    jwt_payload_handler(user)
-                )})
-            serializer.is_valid()
-            return Response(serializer.data)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-
-@api_view(['POST',])
-def registration_view(request):
-
-    if request.method == 'POST':
-        serializer = RegisterSerializer(data=request.data)
-        data = {}
-        if serializer.is_valid():
-            user = serializer.save()
-            data['response'] = 'succesfully registered a new user...'
-            data['email'] = user.email
-            data['username'] = user.username
-        else:
-            data = serializer.errors
-        return Response(data)
