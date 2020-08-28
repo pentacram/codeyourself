@@ -11,14 +11,17 @@ class Questions(models.Model):
 	content = models.ForeignKey(Content, on_delete=models.CASCADE)
 	question = models.CharField(max_length=600)	
 
-	def check_answer(self,answer):
-		return self.answer_set.filter(id=answer.id, is_answer=True).exists()
-
-	def get_answers(self):
-	    return self.answer_set.filter(is_answer=True)
+	#def check_answer(self,answer):
+	#	return self.answer_set.filter(id=answer.id, is_answer=True).exists()
+#
+	#def get_answers(self):
+	#    return self.answer_set.filter(is_answer=True)
+#
+	#def __str__(self):
+	#	return self.question
 
 	def __str__(self):
-		return self.question
+		return f"{self.content}, {self.question}"
 
 class Answer(models.Model):
 	questions = models.ForeignKey(Questions, on_delete=models.CASCADE)

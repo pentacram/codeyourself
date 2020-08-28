@@ -2,12 +2,13 @@ from .models import *
 from rest_framework.serializers import ModelSerializer, RelatedField, SlugRelatedField
 
 
+class AnswerSerializer(ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['answer', 'is_answer']
+
 class QuestionSerializer(ModelSerializer):
-    answers = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
-        slug_field='answer'
-     )
+    answers = AnswerSerializer
 
     class Meta:
         model = Questions

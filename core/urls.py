@@ -27,7 +27,8 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('account/', include('user.urls', 'account')),
     path('course/', include('course.urls')),
+    path('questions/', include('questions.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view()),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view()),
-    path('swagger/', schema_view)
+    path('swagger/', schema_view),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
