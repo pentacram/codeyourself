@@ -20,3 +20,4 @@ class MonoBlogList(ListAPIView):
     def get_queryset(self):
         ids = self.kwargs['id']
         return Blog.objects.filter(id=ids)
+                
