@@ -6,16 +6,19 @@ from .serializers import BlogSerializer, BlogMonoSerializer
 from django.http import JsonResponse
 from rest_framework.status import *
 from rest_framework.permissions import AllowAny
+from django.core.paginator import Paginator
 
 class BlogList(ListAPIView):
-    queryset = Blog.objects.all()
     permission_classes = [AllowAny]
+    queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    paginate_by = 10
 
 
 class MonoBlogList(ListAPIView):
-    serializer_class = BlogMonoSerializer
     permission_classes = [AllowAny]
+    serializer_class = BlogMonoSerializer
+    paginate_by = 10
 
     def get_queryset(self):
         ids = self.kwargs['id']
