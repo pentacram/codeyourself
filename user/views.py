@@ -18,6 +18,7 @@ from rest_framework.status import *
 
 
 class CreateUserView(CreateAPIView):
+    permission_classes = [AllowAny]
     model = User.objects.all()
     serializer_class = RegisterSerializer
 
