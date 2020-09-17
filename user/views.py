@@ -15,6 +15,7 @@ from .serializers import *
 import json
 from django.http import JsonResponse
 from rest_framework.status import *
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission
 
 
 class CreateUserView(CreateAPIView):
