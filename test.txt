@@ -1,0 +1,43 @@
+admin.py
+
+class Questions(models.Model):
+    question = models.CharField(max_length=600)
+
+class Answer(models.Model):
+	questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
+	answer = models.CharField(max_length=600)
+	is_answer = models.BooleanField(default=False)
+
+serializers.py
+
+from .models import *
+from rest_framework.serializers import ModelSerializer, RelatedField, SlugRelatedField
+
+
+class AnswerSerializer(ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['answer', 'is_answer']
+
+class QuestionSerializer(ModelSerializer):
+    answers = AnswerSerializer
+
+    class Meta:
+        model = Questions
+        fields = ['question', 'answers']
+
+
+views.py
+
+1. funksiya
+
+GET sorgusu ile
+
+herdefe 1 suali secimlerle biyyerde rest api yaratmagla return elemek
+
+2. funksiya 
+
+GET sorgusu ile. user dashboard yaradilanda POST sorgusuna cevrile biler
+
+userden gelen suali, ve userin o suala verdiyi cavabi dogru olub olmadigin yoxlayib cavabi return elemek
+

@@ -7,17 +7,23 @@ from course.models import *
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class Profile(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=155)
-    surname = models.CharField(max_length=155)
-    point = models.FloatField()
-    image = models.ImageField(upload_to='photos/user')
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now_add=True)
+class User(AbstractUser):
+    fullname = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=100, blank=True, unique=True)
+    phone = models.CharField(max_length=100, blank=True, null=True)
+    point = models.PositiveIntegerField(default=0)
+    level = models.PositiveIntegerField(default=0)
+    img =  models.ImageField(blank=True,null=True)
+
+    def save(self,*args,**kwargs):
+        if self.point >= 50:
+            self.level= 1
+        if self .point >= 200:
+            self.level = 2
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.username}, {self.name}, {self.surname}, {self.point}"
+        return self.username
 
 #@receiver(post_save, sender=User)
 #def create_user_profile(sender, instance, created, **kwargs):
@@ -25,6 +31,18 @@ class Profile(models.Model):
   #      Profile.objects.create(user=instance)
    # instance.profile.save()
 
+
+class Badge(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    badge = models.PositiveIntegerField(default=0)
+    text = models.TextField(blank=True, null=True)
+    image = models.ImageField(blank=True,null=True)
+
+
+    def __str__(self):
+        return user.username
+
+        
 class UserCourse(models.Model):
     username = models.ForeignKey(Profile, on_delete=models.CASCADE)
     coursename = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -32,4 +50,19 @@ class UserCourse(models.Model):
 
     def __str__(self):
         return f"{self.username}, {self.coursename}"
+
+class UserTopic(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    topicName = models.ForeignKey(Topics,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     
+
+class UserContent(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    ContentName = models.ForeignKey(Content,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class UserTest(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    test = models.ForeignKey(Test,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

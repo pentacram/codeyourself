@@ -62,4 +62,23 @@ class GetContent(ListAPIView):
     def get_queryset(self):
         ids = self.kwargs['id']
         return Content.objects.filter(topicsname__id=ids)
+
+
+class TestViwes(APIView):
+    def get(self,request,format=None):
+        if self.request.GET.get('main_id'):
+            task = Test.objects.filter(main_id=self.request.GET.get('main_id'))
+            serializer = TestSerializers(task, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'error': 'topic secin'})
+
+    def post(self,request,format=None):
+        try:
+            if request.data['user']:
+                get_test = Test.objects.get(id=request.data['t_id'])
+                a = get_test.check_answer(request.data['variant'], request.data['user'])
+                return Response({'data':a})
+        except:
+            return Response({'error':'Duzgun melumat gonderilmedi'})
     

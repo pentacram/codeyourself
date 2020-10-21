@@ -58,3 +58,22 @@ class GetContentSerializers(ModelSerializer):
             'content',
         ]
 
+class Main_TestSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Main_Test
+        fields = '__all__'
+
+class QuestionSerializers(serializers.ModelSerializer):
+    #test = TestSerializers(read_only=True)
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+class TestSerializers(serializers.ModelSerializer):
+    #main = Main_TestSerializers(read_only=True)
+    quest_test = QuestionSerializers(many=True)
+    class Meta:
+        model = Test
+        exclude = ['correct_answer',]
+

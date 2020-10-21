@@ -1,0 +1,25 @@
+işin əsas mahiyyəti userdən alinan Python Codu run eliyib nəticəni alıb userə qaytarmagdi.
+
+databasa strukturu.
+
+Model code:
+    id = integerfield
+    contentid = integerfield
+    task = textfield
+
+1. herdefe 1 data qaytaran code yazilmalidi.
+response = {
+    'id':1,
+    'contentid: 1,
+    'task': aciglamasi
+}
+
+2. user request olarag 'id', 'code' gonderecek
+id esasen db den taski goturub codela birlikde run elemeli
+runin neticesini taskla yoxlamali
+ve neticeni response olarag gondermeli
+
+
+numune:
+    https://www.hackerrank.com/challenges/nested-list/problem
+    https://practice.datacamp.com/p/3
