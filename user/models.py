@@ -1,9 +1,9 @@
 from django.db import models
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from course.models import *
-
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -42,9 +42,9 @@ class Badge(models.Model):
     def __str__(self):
         return user.username
 
-        
+
 class UserCourse(models.Model):
-    username = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
     coursename = models.ForeignKey(Course, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

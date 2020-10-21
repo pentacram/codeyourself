@@ -61,7 +61,7 @@ class GetContentSerializers(ModelSerializer):
 class Main_TestSerializers(serializers.ModelSerializer):
 
     class Meta:
-        model = Main_Test
+        model = Main_test
         fields = '__all__'
 
 class QuestionSerializers(serializers.ModelSerializer):

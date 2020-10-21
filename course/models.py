@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import User
+from user.models import *
 from rest_framework.response import Response
 from django.http import JsonResponse
 
@@ -29,7 +29,7 @@ class Main_test(models.Model):
     
 
 class Test(models.Model):
-    main = models.ForeignKey(Main_Test, on_delete=models.CASCADE)
+    main = models.ForeignKey(Main_test, on_delete=models.CASCADE)
     name = models.TextField()
     point = models.PositiveIntegerField(default=50)
     correct_answer = models.CharField(max_length=5)
