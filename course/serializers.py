@@ -28,7 +28,7 @@ class CourseSerializers(serializers.ModelSerializer):
 
 class TopicsSerializers(ModelSerializer):
 
-        courses = GetCourseSerializers()
+        courses = CourseSerializers()
 
         class Meta:
             model = Topics
@@ -48,7 +48,7 @@ class BuyCourseSerializers(ModelSerializer):
 
 class GetContentSerializers(ModelSerializer):
 
-    topicsname = GetTopicsSerializers()
+    topicsname = TopicsSerializers()
 
     class Meta:
         model = Content
