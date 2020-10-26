@@ -9,17 +9,10 @@ from .serializers import *
 from user.models import *
 
 class GetAllCourseList(ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Course.objects.all()
-    serializer_class = GetCourseSerializers
+    serializer_class = CourseSerializers
 
-class GetCourseList(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = GetCourseSerializers
-
-    def get_queryset(self):
-        ids = self.kwargs['id']
-        return Course.objects.filter(pk=ids)
 
 class BuyCource(APIView):
     permission_classes = [IsAuthenticated]
@@ -47,7 +40,7 @@ class BuyCource(APIView):
 
 class GetTopics(ListAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = GetTopicsSerializers
+    serializer_class = TopicsSerializers
 
     def get_queryset(self):
         ids = self.kwargs['id']

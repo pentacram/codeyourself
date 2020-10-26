@@ -21,13 +21,12 @@ from user.models import *
 
 User = get_user_model()
 
-class GetCourseSerializers(ModelSerializer):
-    
+class CourseSerializers(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['name', 'photo', 'created_at', 'updated_at']
+        fields = '__all__'
 
-class GetTopicsSerializers(ModelSerializer):
+class TopicsSerializers(ModelSerializer):
 
         courses = GetCourseSerializers()
 

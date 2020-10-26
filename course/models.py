@@ -9,6 +9,9 @@ class Course(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 class Topics(models.Model):
     courses = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -18,10 +21,23 @@ class Topics(models.Model):
     )
     status = models.CharField(max_length=255, choices=status_list, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.name}, {self.courses.name}"
+
+class Pod_Topic(models.Model):
+    topic = models.ForeignKey(Topics, on_delete=models.CASCADE,related_name='paraqraf')
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.name}, {self.topic.name}"
+
 class Content(models.Model):
     topicsname = models.ForeignKey(Topics, on_delete=models.CASCADE)
     content = models.TextField()
     point = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.topicsname}, {self.point}"
 
 
 class Main_test(models.Model):
