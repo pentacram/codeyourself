@@ -6,6 +6,7 @@ from django.http import JsonResponse
 class Course(models.Model):
     name = models.CharField(max_length=255)
     photo = models.ImageField(upload_to='photos/course')
+    about = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

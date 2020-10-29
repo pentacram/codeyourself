@@ -26,9 +26,14 @@ class CourseSerializers(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
+class OneCourseSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['name']
+
 class TopicsSerializers(ModelSerializer):
 
-        courses = CourseSerializers()
+        courses = OneCourseSerializers
 
         class Meta:
             model = Topics

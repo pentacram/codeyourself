@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework.documentation import include_docs_urls
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,5 +31,6 @@ urlpatterns = [
     path('questions/', include('questions.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view()),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view()),
+    path('docs/', include_docs_urls(title='Polls API')),
     path('swagger/', schema_view),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

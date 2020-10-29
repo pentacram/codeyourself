@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated, I
 from rest_framework.generics import *
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 from rest_framework.status import *
 from .models import *
 from .serializers import *
@@ -12,6 +13,7 @@ class GetAllCourseList(ListAPIView):
     permission_classes = [AllowAny]
     queryset = Course.objects.all()
     serializer_class = CourseSerializers
+    paginate_by = 10
 
 
 class BuyCource(APIView):
@@ -39,12 +41,14 @@ class BuyCource(APIView):
 
 
 class GetTopics(ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = TopicsSerializers
+    paginate_by = 10
 
     def get_queryset(self):
         ids = self.kwargs['id']
         data = Topics.objects.filter(courses__id=ids)
+
         return data
         
 
