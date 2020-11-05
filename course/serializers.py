@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from rest_framework.serializers import (
+    SerializerMethodField,
     CharField,
     EmailField,
     HyperlinkedIdentityField,
@@ -27,9 +28,14 @@ class CourseSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 class OneCourseSerializers(serializers.ModelSerializer):
+    get_image_url = SerializerMethodField('get_photo')
+
     class Meta:
         model = Course
-        fields = ['name']
+        fields = ['name', 'photo', 'get_image_url']
+
+    def get_image_url(self, obj):
+        return obj.photo.url
 
 class TopicsSerializers(ModelSerializer):
 
@@ -41,6 +47,18 @@ class TopicsSerializers(ModelSerializer):
                 'courses',
                 'name',
             ]
+
+class PodTopicSerializers(ModelSerializer):
+
+    topic = TopicsSerializers
+
+    class Meta:
+        model = Pod_Topic
+        fields = [
+            'topic',
+            'name'
+        ]
+
 
 class BuyCourseSerializers(ModelSerializer):
 

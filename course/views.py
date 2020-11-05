@@ -9,6 +9,8 @@ from .models import *
 from .serializers import *
 from user.models import *
 
+
+
 class GetAllCourseList(ListAPIView):
     permission_classes = [AllowAny]
     queryset = Course.objects.all()
@@ -40,16 +42,39 @@ class BuyCource(APIView):
             }, status=400)
 
 
-class GetTopics(ListAPIView):
+class GetOneCourse(ListAPIView):
     permission_classes = [AllowAny]
-    serializer_class = TopicsSerializers
+    serializer_class = OneCourseSerializers
     paginate_by = 10
 
-    def get_queryset(self):
-        ids = self.kwargs['id']
-        data = Topics.objects.filter(courses__id=ids)
+    def get(self, *args, **kwargs):
+        ids = kwargs.get('id')
+        result = []
+        course = Course.objects.filter(pk=ids).first()
+        topic = Topics.objects.filter(courses_id = course.pk).first()
+        pod = Pod_Topic.objects.filter(topic__id=topic.pk).first()
+    
 
-        return data
+        result.append({
+            'course': ({
+                'name': course.name,
+                'about': course.about,
+                'photo': course.photo.url,
+            }),
+            'topic': ({
+                'name': topic.name,
+                'status': topic.status
+            }),
+            'podtopic':({
+                'name': pod.name,
+                'id': pod.pk
+            })
+        })
+
+
+        return JsonResponse({
+            'data': result
+        })
         
 
 class GetContent(ListAPIView):
